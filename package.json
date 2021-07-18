@@ -7,7 +7,8 @@
     "start:dev": "nodemon",
     "build": "rimraf ./build && tsc",
     "start:prod": "npm run build && node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,9 @@
   "homepage": "https://github.com/potanco/express-ts-api-boilerplate#readme",
   "devDependencies": {
     "@types/node": "^16.3.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.31.0",
     "nodemon": "^2.0.12",
     "rimraf": "^3.0.2",
     "ts-node": "^10.1.0",
