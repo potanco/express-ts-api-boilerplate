@@ -1,0 +1,30 @@
+{
+  "name": "express-ts-api-boilerplate",
+  "version": "1.0.0",
+  "description": "A Node-Express boilerplate for building RESTful APIs using typescript",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon",
+    "build": "rimraf ./build && tsc",
+    "start:prod": "npm run build && node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/potanco/express-ts-api-boilerplate.git"
+  },
+  "keywords": [],
+  "author": "Potan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/potanco/express-ts-api-boilerplate/issues"
+  },
+  "homepage": "https://github.com/potanco/express-ts-api-boilerplate#readme",
+  "devDependencies": {
+    "@types/node": "^16.3.3",
+    "nodemon": "^2.0.12",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
