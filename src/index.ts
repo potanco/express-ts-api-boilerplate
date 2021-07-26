@@ -1,17 +1,7 @@
-/**
- * Required External Modules
- */
 import * as dotenv from 'dotenv';
-import helmet from 'helmet';
-import cors from 'cors';
-import express, { Request, Response } from 'express';
-import swaggerUi from 'swagger-ui-express';
+import { createServer } from 'http';
 
-import morganMiddleware from './middleware/morgan.middleware';
-import { errorHandler } from './middleware/error.middleware';
-import { notFoundHandler } from './middleware/not-found.middleware';
-import { rateLimiter } from './middleware/rateLimiter.middleware';
-
+import App from './app';
 
 /**
  * App Variables
@@ -24,48 +14,18 @@ if (!process.env.APP_PORT) {
 
 const PORT: number = parseInt(process.env.APP_PORT as string, 10);
 
-const app = express();
+App.set('port', PORT);
 
-/**
- *  App Configuration
- */
-app.use(helmet());
-app.use(cors());
-app.use(morganMiddleware);
+const server = createServer(App);
+server.listen(PORT);
 
-/**
- * Body parsing Middleware
- */
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+server.on('listening', function (): void {
+  let addr = server.address();
 
-/**
- * Error Handling Middleware
- */
-app.use(errorHandler);
-app.use(notFoundHandler);
-
-/**
- * Rate Limiter Middleware 
- */
-app.use(rateLimiter);
-
-/**
- * Swagger
- */
-app.use('/docs', swaggerUi.serve, async (_req: Request, res: Response) => {
-  return res.send(swaggerUi.generateHTML(await import('../swagger.json')));
+  let bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr? addr.port: PORT}`;
+  console.log(
+    `⚡️[server]: Server is running on port ${bind}`
+  );
 });
 
-/** 
- * Routes
- */
-
-app.get('/', (req, res) => res.send('Express + TypeScript Server'));
-
-/**
- * Server Activation
- */
-app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
-});
+module.exports = App;
