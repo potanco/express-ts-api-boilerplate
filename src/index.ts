@@ -1,6 +1,7 @@
-import express from "express";
+import express, { Request, Response } from 'express';
 import Logger from './configs/logger';
-import morganMiddleware from "./configs/morgan.middleware";
+import swaggerUi from 'swagger-ui-express';
+import morganMiddleware from './configs/morgan.middleware';
 
 const app = express();
 
@@ -19,6 +20,12 @@ app.get('/logger', (_, res) => {
   res.send('Hello world');
 });
 
+/**
+ * --------------  SWAGGER  --------------
+ */
+app.use('/docs', swaggerUi.serve, async (_req: Request, res: Response) => {
+  return res.send(swaggerUi.generateHTML(await import('../swagger.json')));
+});
 
 const PORT = 3000;
 app.get('/', (req, res) => res.send('Express + TypeScript Server'));
