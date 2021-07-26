@@ -3,9 +3,12 @@
  */
 
 import * as dotenv from 'dotenv';
+import helmet from 'helmet';
+import cors from 'cors';
 import express, { Request, Response } from 'express';
-import Logger from './configs/logger';
 import swaggerUi from 'swagger-ui-express';
+
+import Logger from './configs/logger';
 import morganMiddleware from './configs/morgan.middleware';
 
 /**
@@ -24,7 +27,8 @@ const app = express();
 /**
  *  App Configuration
  */
-
+app.use(helmet());
+app.use(cors());
 app.use(morganMiddleware);
 app.use(express.json());
 

@@ -49,9 +49,13 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
+    "@types/helmet": "^4.0.0",
     "@types/morgan": "^1.9.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "helmet": "^4.6.0",
     "morgan": "^1.10.0",
     "winston": "^3.3.3"
   }
