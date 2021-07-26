@@ -10,7 +10,8 @@ import swaggerUi from 'swagger-ui-express';
 
 import Logger from './configs/logger';
 import morganMiddleware from './configs/morgan.middleware';
-
+import { errorHandler } from './middleware/error.middleware';
+import { notFoundHandler } from './middleware/not-found.middleware';
 /**
  * App Variables
  */
@@ -53,6 +54,9 @@ app.use('/docs', swaggerUi.serve, async (_req: Request, res: Response) => {
 });
 
 app.get('/', (req, res) => res.send('Express + TypeScript Server'));
+
+app.use(errorHandler);
+app.use(notFoundHandler);
 
 /**
  * Server Activation
