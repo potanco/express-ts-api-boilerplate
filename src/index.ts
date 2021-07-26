@@ -1,17 +1,18 @@
 /**
  * Required External Modules
  */
-
 import * as dotenv from 'dotenv';
 import helmet from 'helmet';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
 import swaggerUi from 'swagger-ui-express';
 
-import Logger from './configs/logger';
-import morganMiddleware from './configs/morgan.middleware';
+import morganMiddleware from './middleware/morgan.middleware';
 import { errorHandler } from './middleware/error.middleware';
 import { notFoundHandler } from './middleware/not-found.middleware';
+import { rateLimiter } from './middleware/rateLimiter.middleware';
+
+
 /**
  * App Variables
  */
@@ -31,32 +32,36 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(morganMiddleware);
-app.use(express.json());
 
 /**
- * Logger test
+ * Body parsing Middleware
  */
-app.get('/logger', (_, res) => {
-  Logger.error('This is an error log');
-  Logger.warn('This is a warn log');
-  Logger.info('This is a info log');
-  Logger.http('This is a http log');
-  Logger.debug('This is a debug log');
-
-  res.send('Hello world');
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 /**
- * SWAGGER
+ * Error Handling Middleware
+ */
+app.use(errorHandler);
+app.use(notFoundHandler);
+
+/**
+ * Rate Limiter Middleware 
+ */
+app.use(rateLimiter);
+
+/**
+ * Swagger
  */
 app.use('/docs', swaggerUi.serve, async (_req: Request, res: Response) => {
   return res.send(swaggerUi.generateHTML(await import('../swagger.json')));
 });
 
-app.get('/', (req, res) => res.send('Express + TypeScript Server'));
+/** 
+ * Routes
+ */
 
-app.use(errorHandler);
-app.use(notFoundHandler);
+app.get('/', (req, res) => res.send('Express + TypeScript Server'));
 
 /**
  * Server Activation
