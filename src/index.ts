@@ -2,17 +2,15 @@ import * as dotenv from 'dotenv';
 import { createServer } from 'http';
 
 import App from './app';
+import { ConfigService } from './common/config';
+import Logger from './common/logger';
 
 /**
  * App Variables
  */
-dotenv.config();
+const configService = new ConfigService('.env');
 
-if (!process.env.APP_PORT) {
-  process.exit(1);
-}
-
-const PORT: number = parseInt(process.env.APP_PORT as string, 10);
+const PORT: number = parseInt(configService.get('APP_PORT') as string, 10);
 
 App.set('port', PORT);
 
@@ -23,7 +21,7 @@ server.on('listening', function (): void {
   let addr = server.address();
 
   let bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr? addr.port: PORT}`;
-  console.log(
+  Logger.debug(
     `⚡️[server]: Server is running on port ${bind}`
   );
 });
