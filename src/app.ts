@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
+import compression from 'compression';
 
 import morganMiddleware from './middleware/morgan.middleware';
 import Logger from './common/logger';
@@ -24,7 +25,7 @@ class App {
     this.express.use(morganMiddleware);
 
     this.express.use(routes);
-    
+
     this.middleware();
     this.configure();
     this.setupDatabaseConnection();
@@ -32,6 +33,7 @@ class App {
 
   //App configurations
   private configure(): void {
+    this.express.use(compression());
     this.express.use(helmet());
     this.express.use(cors());
   }
