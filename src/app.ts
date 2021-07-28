@@ -2,10 +2,17 @@ import cors from 'cors';
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
-import { errorHandler } from './middleware/error.middleware';
+import mongoose from "mongoose";
+
 import morganMiddleware from './middleware/morgan.middleware';
+
+import { errorHandler } from './middleware/error.middleware';
 import { notFoundHandler } from './middleware/not-found.middleware';
 import { rateLimiter } from './middleware/rateLimiter.middleware';
+import Logger from './common/logger';
+import { ConfigService } from './common/config';
+
+const configService = new ConfigService('.env');
 
 class App {
   public express: express.Application;
@@ -15,6 +22,7 @@ class App {
     this.middleware();
     this.configure();
     this.routes();
+    this.setupDatabaseConnection();
   }
 
   //App configurations
@@ -49,14 +57,13 @@ class App {
   }
 
   private routes(): void {
-    this.express.use('/', (req, res, next) => {
-      res.send('Typescript App works!!!');
+    this.express.get('/', (req, res, next) => {
+      res.send('Typescript App works!!');
     });
-
     /**
      * Swagger
      */
-    this.express.use(
+    this.express.get(
       '/docs',
       swaggerUi.serve,
       async (_req: Request, res: Response) => {
@@ -66,6 +73,25 @@ class App {
       }
     );
   }
-}
 
+   private setupDatabaseConnection() {
+    const connection = mongoose.connection;
+    connection.on("connected", () => {
+      Logger.info('⚡️[Mongo] Connection Established');
+    });
+    connection.on("reconnected", () => {
+      Logger.info('⚡️[Mongo] Connection Reestablished');
+    });
+
+    const run = async () => {
+      await mongoose.connect(configService.get('MONGODB_URI'), {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true
+      });
+    };
+
+    run().catch((error) => Logger.error(`${error}`));
+  }
+}
 export default new App().express;
