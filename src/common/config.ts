@@ -1,7 +1,6 @@
 import { parse } from 'dotenv';
 import * as joi from '@hapi/joi';
 import * as fs from 'fs';
-import { join } from 'path/posix';
 import Logger from './logger';
 
 /**
@@ -47,7 +46,10 @@ export class ConfigService {
       APP_PORT: joi.number().required(),
       WEBTOKEN_SECRET_KEY: joi.string().required(),
       WEBTOKEN_EXPIRATION_TIME: joi.number().required(),
-      MONGODB_URI: joi.string().required()
+      MONGODB_URI: joi.string().required(),
+      EMAIL_SERVICE: joi.string().required(),
+      EMAIL_USER: joi.string().required(),
+      EMAIL_PASSWORD: joi.string().required()
     });
 
     /**
