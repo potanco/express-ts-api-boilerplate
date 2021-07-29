@@ -4,13 +4,13 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 import compression from 'compression';
 
-import morganMiddleware from './middleware/morgan.middleware';
+import morganMiddleware from './middlewares/morgan.middleware';
 import Logger from './common/logger';
 import routes from './routes';
 
-import { errorHandler } from './middleware/error.middleware';
-import { notFoundHandler } from './middleware/not-found.middleware';
-import { rateLimiter } from './middleware/rateLimiter.middleware';
+import { errorHandler } from './middlewares/error.middleware';
+import { notFoundHandler } from './middlewares/not-found.middleware';
+import { rateLimiter } from './middlewares/rateLimiter.middleware';
 import { ConfigService } from './common/config';
 
 const configService = new ConfigService('.env');
