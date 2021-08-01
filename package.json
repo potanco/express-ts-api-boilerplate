@@ -62,6 +62,8 @@
     "@types/helmet": "^4.0.0",
     "@types/morgan": "^1.9.3",
     "argon2": "^0.28.2",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "ejs": "^3.1.6",

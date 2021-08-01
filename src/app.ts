@@ -10,7 +10,7 @@ import routes from './routes';
 
 import { errorHandler } from './middlewares/error.middleware';
 import { notFoundHandler } from './middlewares/not-found.middleware';
-import { rateLimiter } from './middlewares/rateLimiter.middleware';
+import { rateLimiter } from './middlewares/rate-limiter.middleware';
 import { ConfigService } from './common/config';
 
 const configService = new ConfigService('.env');
@@ -24,11 +24,17 @@ class App {
     // Logger -Morgan Middleware
     this.express.use(morganMiddleware);
 
+    // Body parsing Middleware
+    this.express.use(express.json());
+    this.express.use(express.urlencoded({ extended: false }));
+
     this.express.use(routes);
 
-    this.middleware();
+    this.InititalizeMiddlewares();
+
     this.configure();
-    this.setupDatabaseConnection();
+
+    this.InititalizeDatabaseConnection();
   }
 
   //App configurations
@@ -38,22 +44,18 @@ class App {
     this.express.use(cors());
   }
 
-  // Configure Express middleware.
-  private middleware(): void {
-    // Body parsing Middleware
-    this.express.use(express.json());
-    this.express.use(express.urlencoded({ extended: false }));
-
+  // Initialize middlewares.
+  private InititalizeMiddlewares(): void {
     // Error Handling Middleware
     this.express.use(errorHandler);
     this.express.use(notFoundHandler);
 
-    // Rate Limiter Middleware
+    //Rate limiter
     this.express.use(rateLimiter);
   }
 
   //Database Connection
-  private setupDatabaseConnection() {
+  private InititalizeDatabaseConnection() {
     const connection = mongoose.connection;
     connection.on('connected', () => {
       Logger.info('⚡️[Mongo] Connection Established');
