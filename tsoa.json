@@ -4,9 +4,19 @@
   "controllerPathGlobs": ["src/**/*controller.ts"],
   "spec": {
     "outputDirectory": "build",
-    "specVersion": 3
+    "specVersion": 3,
+    "basePath": "/api/v1",
+    "securityDefinitions": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "bearerFormat"
+      }
+    }
   },
   "routes": {
+    "basePath": "/api/v1",
     "routesDir": "build"
   }
+    
 }

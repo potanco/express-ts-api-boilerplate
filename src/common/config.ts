@@ -1,7 +1,8 @@
-import { parse } from 'dotenv';
 import * as joi from '@hapi/joi';
 import * as fs from 'fs';
-import Logger from './logger';
+import { parse } from 'dotenv';
+
+import { Logger } from './logger';
 
 /**
  * Key-value mapping

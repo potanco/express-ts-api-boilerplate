@@ -4,17 +4,19 @@ import ejs from 'ejs';
 import { createTransport } from 'nodemailer';
 import { ConfigService } from './config';
 
+const configService = new ConfigService('.env');
+
 /**
  * Email Service
  */
-export default class EmailService {
+export class EmailService {
   private readonly nodemailerTransport: Mail;
 
   /**
    * Constructor
    * @param {ConfigService} configService
    */
-  constructor(private readonly configService: ConfigService) {
+  constructor() {
     // Create Transportor
     this.nodemailerTransport = createTransport({
       service: configService.get('EMAIL_SERVICE'),
@@ -26,10 +28,12 @@ export default class EmailService {
   }
 
   async sendMail(options: any) {
-
     // Render HTML Based on ejs template
+
+    console.log(options);
+
     const html = await ejs.renderFile(
-      `${__dirname}/../views/email/${options.html}`,
+      `${__dirname}/../email-templates/${options.template}`,
       {
         user: options.user,
         url: options.url
@@ -37,13 +41,13 @@ export default class EmailService {
     );
     // Define Mail Options
     const mailOptions: Mail.Options = {
-      from: process.env.Email_From,
+      from: configService.get('EMAIL_USER'),
       to: options.email,
       subject: options.subject,
       html
     };
 
     // Send Email
-    await this.nodemailerTransport.sendMail(options);
+    await this.nodemailerTransport.sendMail(mailOptions);
   }
 }

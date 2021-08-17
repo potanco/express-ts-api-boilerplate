@@ -1,4 +1,4 @@
-import HttpException from '../exceptions/http-exception';
+import { HttpException } from '../exceptions/http-exception';
 import { Request, Response, NextFunction } from 'express';
 
 export const errorHandler = (
@@ -7,7 +7,12 @@ export const errorHandler = (
   response: Response,
   next: NextFunction
 ) => {
-  const status = error.statusCode || error.status || 500;
-
-  response.status(status).send(error);
+  const status = error.error || error.status || 500;  
+  response.status(status).json({
+    success: false,
+    error: error.error ? error.error : 500,
+    message: error.message,
+    description: error.description,
+    data: {}
+  });
 };

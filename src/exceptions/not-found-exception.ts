@@ -1,7 +1,7 @@
-import HttpException from './http-exception';
+import { HttpException } from './http-exception';
 
-export default class NotFoundException extends HttpException {
-  constructor(message: string) {
-    super(404, message), 'Not Found Exception';
+export class NotFoundException extends HttpException {
+  constructor(description: string) {
+    super(404, 'Not Found Exception', description);
   }
 }
