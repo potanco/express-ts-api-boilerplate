@@ -38,7 +38,7 @@ class App {
       swaggerUi.serve,
       async (_req: Request, res: Response) => {
         return res.send(
-          swaggerUi.generateHTML(await import('../build/swagger.json'))
+          swaggerUi.generateHTML(await import('./docs/swagger.json'))
         );
       }
     );

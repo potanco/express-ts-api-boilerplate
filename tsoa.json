@@ -3,7 +3,7 @@
   "noImplicitAdditionalProperties": "throw-on-extras",
   "controllerPathGlobs": ["src/**/*controller.ts"],
   "spec": {
-    "outputDirectory": "build",
+    "outputDirectory": "src/docs",
     "specVersion": 3,
     "basePath": "/api/v1",
     "securityDefinitions": {
@@ -16,7 +16,7 @@
   },
   "routes": {
     "basePath": "/api/v1",
-    "routesDir": "build"
+    "routesDir": "src/docs"
   }
     
 }
