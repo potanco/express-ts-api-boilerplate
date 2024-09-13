@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 import compression from 'compression';
 import swaggerUi from 'swagger-ui-express';
+import swaggerJSON from './docs/swagger.json';
 
 import { morganMiddleware } from './middlewares/morgan.middleware';
 import { Logger } from './common/logger';
@@ -37,9 +38,7 @@ class App {
       '/api/docs',
       swaggerUi.serve,
       async (_req: Request, res: Response) => {
-        return res.send(
-          swaggerUi.generateHTML(await import('./docs/swagger.json'))
-        );
+        return res.send(swaggerUi.generateHTML(swaggerJSON));
       }
     );
 
@@ -86,18 +85,14 @@ class App {
     });
 
     const run = async () => {
-      await mongoose.connect(configService.get('MONGODB_URI'), {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useCreateIndex: true
-      });
-    }
+      await mongoose.connect(configService.get('MONGODB_URI'));
+    };
 
     run().catch((error) => Logger.error(`${error}`));
   }
 
   public listen() {
-    this.express.listen(this.PORT, () => {
+    this.express.listen(this.PORT || 3000, () => {
       Logger.info(`⚡️[Server] listening on the port ${this.PORT}`);
     });
   }
