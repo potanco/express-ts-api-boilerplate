@@ -21,6 +21,7 @@ import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { UpdatePasswordDto } from './dtos/update-password.dto';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
+import { BadRequestException } from '../../exceptions/bad-request-exception';
 
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -161,7 +162,7 @@ export class AuthController {
     // 3 Create Password Reset Token
     const resetToken = admin.createPasswordResetToken();
 
-    await admin.save({ validateBeforeSave: false });
+    await admin.save();
 
     // 4 Send it to Users Email
     // const resetURL = `localhost:5000/api/v1/users/resetPassword/${resetToken}`;
@@ -189,25 +190,24 @@ export class AuthController {
   async resetPassword(
     @Body() resetpasswordDto: ResetPasswordDto
   ): Promise<String> {
-    // 1 Find the  user based on Token
-
-    const hashedToken = crypto
-      .createHash('sha256')
-      .update(resetpasswordDto.resetToken)
-      .digest('hex');
+    const resetToken = resetpasswordDto.resetToken;
 
     const admin = await AdminModel.findOne({
-      passwordResetToken: hashedToken,
+      passwordResetToken: resetToken,
       passwordResetExpires: {
         $gt: Date.now()
       }
     });
 
+    if (!admin) new BadRequestException(`No Admin Found with that reset token`);
+
+    if (resetpasswordDto.password !== resetpasswordDto.passwordConfirm)
+      new BadRequestException(`Password and Confirm Password do not match`);
+
     // 3 Change Password and Log the User in
     admin.password = resetpasswordDto.password;
-    admin.passwordConfirm = resetpasswordDto.passwordConfirm;
 
-    await admin.save({ runValidators: false });
+    await admin.save();
     return 'Password was resetted successfully';
   }
 
@@ -225,7 +225,6 @@ export class AuthController {
 
     // 3) if so update the  password
     admin.password = updatePasswordDto.password;
-    admin.passwordConfirm = updatePasswordDto.passwordConfirm;
 
     await admin.save();
     return `Your password was updated successfully`;
