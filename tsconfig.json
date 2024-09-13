@@ -20,10 +20,10 @@
     // "composite": true,                           /* Enable project compilation */
     // "tsBuildInfoFile": "./",                     /* Specify file to store incremental compilation information */
     // "removeComments": true,                      /* Do not emit comments to output. */
-    // "noEmit": true,                              /* Do not emit outputs. */
+    "noEmit": true,                              /* Do not emit outputs. */
     // "importHelpers": true,                       /* Import emit helpers from 'tslib'. */
     // "downlevelIteration": true,                  /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
-    // "isolatedModules": true,                     /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
+    "isolatedModules": true,                     /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
 
     /* Strict Type-Checking Options */
     "strict": false,                                /* Enable all strict type-checking options. */
@@ -33,7 +33,9 @@
     "strictBindCallApply": true,                    /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
     "strictPropertyInitialization": false,          /* Enable strict checking of property initialization in classes. */
     "noImplicitThis": true,                         /* Raise error on 'this' expressions with an implied 'any' type. */
-    "alwaysStrict": true,                           /* Parse in strict mode and emit "use strict" for each source file. */
+    "alwaysStrict": true,                            /* Parse in strict mode and emit "use strict" for each source file. */
+    "verbatimModuleSyntax": true,
+    "useDefineForClassFields":true,                                 
 
     /* Additional Checks */
     // "noUnusedLocals": true,                      /* Report errors on unused locals. */
@@ -73,7 +75,8 @@
   },
   "exclude": [
     "build",
-    "src/docs/routes.ts"
+    "src/docs/routes.ts",
+    "node_modules"
   ],
   "include": [
     "src"
