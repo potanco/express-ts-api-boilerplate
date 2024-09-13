@@ -5,7 +5,6 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { AdminController } from './admin.controller';
 import { NotFoundException } from '../../exceptions/not-found-exception';
 
-require('../auth/passport')(passport); // as strategy in ./passport.js needs passport object
 const adminController = new AdminController();
 
 /**

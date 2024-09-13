@@ -1,6 +1,11 @@
 import passport from 'passport';
 
-import { NextFunction, Request, Response, Router } from 'express';
+import {
+  type NextFunction,
+  type Request,
+  type Response,
+  Router
+} from 'express';
 
 import { validationMiddleware } from '../../middlewares/validator.middleware';
 
@@ -12,15 +17,11 @@ import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { UpdatePasswordDto } from './dtos/update-password.dto';
-
+import crypto from 'crypto';
 import { BadRequestException } from '../../exceptions/bad-request-exception';
 import { HttpException } from '../../exceptions/http-exception';
 
-import { AdminDocument } from '../admin/schemas/admin.schema';
-
-const crypto = require('crypto');
-
-require('./passport')(passport); // as strategy in ./passport.js needs passport object
+import type { AdminDocument } from '../admin/schemas/admin.schema';
 
 const authController = new AuthController();
 const adminController = new AdminController();

@@ -1,4 +1,5 @@
 {
+	"openapi": "3.0.0",
 	"components": {
 		"examples": {},
 		"headers": {},
@@ -6,63 +7,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"IAdmin": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"photo": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"activationLink": {
-						"type": "string"
-					},
-					"passwordResetToken": {
-						"type": "string"
-					},
-					"passwordResetExpires": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"activated": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"name",
-					"email",
-					"photo",
-					"password",
-					"activationLink",
-					"passwordResetToken",
-					"passwordResetExpires",
-					"activated"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateAdminDto": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"photo": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name",
-					"photo"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"LoginDto": {
 				"properties": {
 					"email": {
@@ -154,6 +98,63 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IAdmin": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"photo": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"activationLink": {
+						"type": "string"
+					},
+					"passwordResetToken": {
+						"type": "string"
+					},
+					"passwordResetExpires": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"activated": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"photo",
+					"password",
+					"activationLink",
+					"passwordResetToken",
+					"passwordResetExpires",
+					"activated"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateAdminDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"photo": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"photo"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -175,161 +176,7 @@
 			"name": "Potan"
 		}
 	},
-	"openapi": "3.0.0",
 	"paths": {
-		"/admins": {
-			"get": {
-				"operationId": "GetAll",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/IAdmin"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/admins/{adminId}": {
-			"get": {
-				"operationId": "GetById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"data": {
-													"$ref": "#/components/schemas/IAdmin"
-												}
-											},
-											"required": [
-												"data"
-											],
-											"type": "object"
-										},
-										{}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "adminId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"patch": {
-				"operationId": "Update",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IAdmin"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "adminId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateAdminDto"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "Delete",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "adminId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
 		"/auth/login": {
 			"post": {
 				"operationId": "Login",
@@ -603,6 +450,159 @@
 						}
 					}
 				}
+			}
+		},
+		"/admins": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IAdmin"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Admin"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/admins/{adminId}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {
+													"$ref": "#/components/schemas/IAdmin"
+												}
+											},
+											"required": [
+												"data"
+											],
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Admin"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "adminId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IAdmin"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Admin"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "adminId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateAdminDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Admin"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "adminId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

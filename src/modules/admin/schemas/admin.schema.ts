@@ -4,9 +4,12 @@ import crypto from 'crypto';
 import validator from 'validator';
 
 import { IAdmin } from '../interfaces/admin.interface';
+import { NextFunction } from 'express';
 
 interface AdminDocument extends IAdmin, mongoose.Document {
-  isPasswordValid(password: string): any;
+  isPasswordValid(password: string): Awaited<Promise<boolean>>;
+  createAccountActivationLink(): string;
+  createPasswordResetToken(): string;
 }
 
 // Create a simple schema for Admin
@@ -57,7 +60,7 @@ const adminSchema = new mongoose.Schema<AdminDocument>(
   }
 );
 
-adminSchema.pre<any>('save', async function (next: mongoose.HookNextFunction) {
+adminSchema.pre('save', async function (next: NextFunction) {
   try {
     if (!this.isModified('password')) return next();
     const passwordHash = await argon2.hash(this.password);
