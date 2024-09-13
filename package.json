@@ -2,13 +2,13 @@
   "name": "express-ts-api-boilerplate",
   "version": "1.0.0",
   "description": "A Node-Express boilerplate for building RESTful APIs using typescript",
-  "main": "index.js",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "dev": "nodemon --watch src --exec \"npm run type-check && npm run build && node dist/index.js\"",
-    "build": "rimraf ./build  && tsoa spec-and-routes routes && swc src -d dist",
+    "dev": "nodemon --watch src --ext ts --exec 'npm run build && npm start'",
+    "build": "swc src --out-dir build --copy-files",
+    "build:watch": "tsc --watch & node dist/index.js",
     "build:swagger": "tsoa spec-and-routes routes",
-    "start:prod": "npm run build && node build/index.js",
+    "start": "node build/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
@@ -49,7 +49,8 @@
     "passport-local": "^1.0.0",
     "swagger-ui-express": "^5.0.1",
     "validator": "^13.12.0",
-    "winston": "^3.14.2"
+    "winston": "^3.14.2",
+    "tsoa": "^6.4.0"
   },
   "devDependencies": {
     "@swc/cli": "^0.4.0",
@@ -80,7 +81,6 @@
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
-    "tsoa": "^6.4.0",
     "typescript": "^5.6.2"
   }
 }
